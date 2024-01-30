@@ -5,29 +5,29 @@
 #include "delay.h"
 #include "AD9833.h"
 #include "FLASH.h"
-//ºê¶¨Òå
+//å®å®šä¹‰
 #define uint8_t unsigned char
 #define uint16_t  unsigned int
 #define uint32_t unsigned long
 
 double FREQ=0;
 #define Phase Ph 
-//º¯ÊıÉùÃ÷
-void init_IO();//³õÊ¼»¯IO
-void Para_Set_page();//²ÎÊıÒ³
-void Para_Setting_page();//²ÎÊıÉèÖÃÒ³
-void OPEN_page();    //¿ª»ú¶¯»­
+//å‡½æ•°å£°æ˜
+void init_IO();//åˆå§‹åŒ–IO
+void Para_Set_page();//å‚æ•°é¡µ
+void Para_Setting_page();//å‚æ•°è®¾ç½®é¡µ
+void OPEN_page();    //å¼€æœºåŠ¨ç”»
 double Freq_Cal();
 void Flash_read();
 void Flash_save();
-//²ÎÊı¶¨Òå
+//å‚æ•°å®šä¹‰
 
 char *_WAVE[]={ "TRIA","SINE","SQUA"};
 uint8_t Wave=1;
 
 char *_UNIT[]={"Hz ","kHz","MHz"};
 
-//ADC·´À¡
+//ADCåé¦ˆ
 uint16_t VF_buf[10]={0};
 char _i=0;
 char i=0;
@@ -50,16 +50,16 @@ uint8_t Vf_L=0;
 double Vf=0;
 double Vf_b=0;
 double Vf_Max=0 ;
-//±äÁ¿
+//å˜é‡
 uint8_t _mode =0;
 uint8_t _select =0;
 uint8_t refresh=0;
 
 
 void main(){  
-  P_SW2|= 0x80;  //À©Õ¹¼Ä´æÆ÷XFR·ÃÎÊÊ¹ÄÜ
-  init_IO(); //³õÊ¼»¯IO
-  OLED_Init();//³õÊ¼»¯OLED
+  P_SW2|= 0x80;  //æ‰©å±•å¯„å­˜å™¨XFRè®¿é—®ä½¿èƒ½
+  init_IO(); //åˆå§‹åŒ–IO
+  OLED_Init();//åˆå§‹åŒ–OLED
 	OPEN_page();
 	Flash_read();
 	delay_ms(5000);
@@ -69,7 +69,7 @@ void main(){
   while(1){
 	//OLED_ShowString2(64,0,_WAVE[wave],16);
 
-		//Ë¢ĞÂ
+		//åˆ·æ–°
 		if(refresh){
 				AD9833_WaveSeting(0,0,0,0);
 				Para_Setting_page();
@@ -213,16 +213,16 @@ void main(){
 }
 
 void init_IO(){
-  RSTCFG=0x50;  //¿ªÆôRST¼ü½øÈëISPÄ£Ê½
+  RSTCFG=0x50;  //å¼€å¯RSTé”®è¿›å…¥ISPæ¨¡å¼
 
-			P1M1 = 0x08;   P1M0 = 0x00;   //ÉèÖÃP1¿ÚÎª×¼Ë«Ïò¿Ú P1.3¸ß×èÊäÈë
-			P3M1 = 0x00;   P3M0 = 0x00;   //ÉèÖÃP3¿ÚÎª×¼Ë«Ïò¿Ú
+			P1M1 = 0x08;   P1M0 = 0x00;   //è®¾ç½®P1å£ä¸ºå‡†åŒå‘å£ P1.3é«˜é˜»è¾“å…¥
+			P3M1 = 0x00;   P3M0 = 0x00;   //è®¾ç½®P3å£ä¸ºå‡†åŒå‘å£
       
-			P3IM0 = 0x00; //µÍµçÆ½ÖĞ¶Ï
+			P3IM0 = 0x00; //ä½ç”µå¹³ä¸­æ–­
       P3IM1 = 0xff;
 	    
-	    ADCTIM = 0x3f; //ÉèÖÃ ADC ÄÚ²¿Ê±Ğò
-      ADCCFG = 0x2f; //ÓÒ¶ÔÆë
+	    ADCTIM = 0x3f; //è®¾ç½® ADC å†…éƒ¨æ—¶åº
+      ADCCFG = 0x2f; //å³å¯¹é½
 	    ADC_CONTR= 0x83; //P1.3
 	
 	   //	EA = 1;
@@ -254,20 +254,20 @@ void OPEN_page(){
 	OLED_ShowString(40,5,"____ ",16);
 	
 	
-	OLED_ShowCHinese(0,0,0);//»ù
-  OLED_ShowCHinese(16,0,1);//ÓÚ
+	OLED_ShowCHinese(0,0,0);//åŸº
+  OLED_ShowCHinese(16,0,1);//äº
 	OLED_ShowCHinese(32,0,2);//D
 	OLED_ShowCHinese(48,0,3);//D
 	OLED_ShowCHinese(64,0,4);//S
-	OLED_ShowCHinese(80,0,5);//µÄ
-	OLED_ShowCHinese(96,0,6);//¶à
-	OLED_ShowCHinese(16,3,7);//¹¦
-	OLED_ShowCHinese(32,3,8);//ÄÜ
-	OLED_ShowCHinese(48,3,9);//ĞÅ
-	OLED_ShowCHinese(64,3,10);//ºÅ
-	OLED_ShowCHinese(80,3,11);//·¢
-	OLED_ShowCHinese(96,3,12);//Éú
-	OLED_ShowCHinese(112,3,13);//Æ÷
+	OLED_ShowCHinese(80,0,5);//çš„
+	OLED_ShowCHinese(96,0,6);//å¤š
+	OLED_ShowCHinese(16,3,7);//åŠŸ
+	OLED_ShowCHinese(32,3,8);//èƒ½
+	OLED_ShowCHinese(48,3,9);//ä¿¡
+	OLED_ShowCHinese(64,3,10);//å·
+	OLED_ShowCHinese(80,3,11);//å‘
+	OLED_ShowCHinese(96,3,12);//ç”Ÿ
+	OLED_ShowCHinese(112,3,13);//å™¨
 	
 	
 	OLED_ShowCHinese(80,6,14);//C
@@ -399,7 +399,7 @@ void Flash_read(){
 
 void Flash_save(){
 	   IapErase(0x0400);
-     IapProgram(wave_addr,Wave);
+       IapProgram(wave_addr,Wave);
 	   IapProgram(unit_addr,_FREQ[6]);
 	   IapProgram(AmpH_addr,AmpH);
 	   IapProgram(AmpL_addr,AmpL);
