@@ -1,0 +1,22 @@
+Òý½Å¶¨Òå
+OLED
+SDA     P1.0
+SCL     P1.1
+
+AD9833
+FSYNC   P1.4
+SCLK    P1.5
+SDATA   P1.6
+CS      P1.7
+
+KEY
+SELECT  P3.4
+MODE    P3.5
+SUB     P3.6
+ADD     P3.7
+OUTPUT  P3.3
+
+STC8H
+RXD     P3.0
+TXD     P3.1
+RST     P5.4
