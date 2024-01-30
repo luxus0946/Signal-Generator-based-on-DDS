@@ -1,37 +1,24 @@
 # 基于DDS的信号发生器
 
-#### 介绍
+#### 基本概述
 本设计使用STC8H8K64U单片机通过IO端口控制波形发生器AD9833输出波形，经过低通滤波单元接入由MCP41010数字电位器控制的MS8051运放来将产生的信号幅值放大，并且配置了相应的按键输入和液晶屏显示波形的幅值、相位、频率等数据。
 
-#### 软件架构
-软件架构说明
+#### 硬件设计
+本设计中基于DDS的多功能信号发生器使用STC8H8K64U实验板通过IO端口控制波形发生器AD9833模块输出波形，经过一个低通滤波单元接入由MCP41010数字电位器控制的MS8051运放进行幅值放大，具体产生的波形、幅值、相位、频率等数据通过液晶屏显示出来，理想测定值通过按键进行人机交互，其中显示单元由12864的液晶模块组成，单片机通过IIC协议控制液晶屏的显示，整个系统通过USB提供电源，外加的接口进行信号的下载和输入。
+![输入图片说明](Imagesall.png)
 
+#### 软件设计
+本设计中使用Keil5编写C语言程序控制STC8H8K64U通过SPI协议与AD9833芯片进行通信输出波形，复用AD9833占用的SPI口线对MCP41010数字电位器进行控制来调整幅值。具体产生的波形、幅值、相位、频率等数据通过液晶屏显示出来，理想测定值通过按键进行人机交互，其中显示单元由12864的液晶模块组成，单片机通过IIC协议控制液晶屏的显示。
+程序流程图如下
+![输入图片说明](Images/%E7%A8%8B%E5%BA%8F%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+##### 相关协议
+1. IIC协议
+![输入图片说明](Images/%E5%9B%BE%E7%89%871.png)
+2. AD9833 
+![输入图片说明](Images/%E5%9B%BE%E7%89%872.png)
+3. MCP41010
+![输入图片说明](Images/%E5%9B%BE%E7%89%873.png)
 
-#### 安装教程
+#### 相关链接
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1.  硬件开源：  https://oshwhub.com/signal-generator-based-on-dds/based-on-dds
